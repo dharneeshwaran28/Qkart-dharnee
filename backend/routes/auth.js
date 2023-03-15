@@ -8,7 +8,7 @@ const config = require("../config.json");
 
 router.post("/register", (req, res) => {
   console.log(`GET request to "/auth/register" received for user}`);
-
+  
   users.findOne({ username: req.body.username }, (err, user) => {
     if (err) {
       return handleError(res, err);
