@@ -19,7 +19,12 @@
 .explore-button {
     color: #00a278 !important;
 }
-
+.but{
+    justify-content: right;
+}
+.use{
+    color: #000000 !important;
+}
 @media screen and (min-width: 768px) {
     .username-text {
         display: block;
