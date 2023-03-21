@@ -61,6 +61,7 @@ const Login = () => {
 
         
         enqueueSnackbar("logged in", { success : true });
+        persistLogin(register.data.token,formData.username,register.data.balance);
         history.push('/')
         setFormData({
          username: "",
@@ -68,7 +69,7 @@ const Login = () => {
          
        });
       
-       persistLogin(register.data.token,formData.username,register.data.balance);
+      
       });} catch (error) {
        if (error.response.status === 400) {
          setLoad(false);

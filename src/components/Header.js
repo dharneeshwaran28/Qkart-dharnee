@@ -7,7 +7,9 @@ import "./Header.css";
 
 
 const Header = ({ children, hasHiddenAuthButtons }) => {
-  const [log, setLog] = useState(localStorage.getItem("token")) 
+  const tt=localStorage.getItem("token")
+  const [log, setLog] = useState(tt) 
+  console.log(log)
     return (
       <Box className="header">
         <Box className="header-title">
@@ -24,12 +26,13 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
         </Button>
         </Link>
         ):(<>
-        {log?(
+        {log ?(
         <Stack direction="row" spacing={2}>
         <img src="avatar.png" alt={localStorage.getItem("username")} />
         <Button className="but use">{localStorage.getItem("username")}</Button>
         <Button className="explore-button but" onClick={ ()=> 
         {
+
           localStorage.clear();
           setLog(false);
         }
