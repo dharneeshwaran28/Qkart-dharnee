@@ -9,12 +9,13 @@ import "./Header.css";
 const Header = ({ children, hasHiddenAuthButtons }) => {
   const tt=localStorage.getItem("token")
   const [log, setLog] = useState(tt) 
-  console.log(log)
+  // console.log(log)
     return (
       <Box className="header">
         <Box className="header-title">
             <img src="logo_light.svg" alt="QKart-icon"></img>
         </Box>      
+        {children}
         {hasHiddenAuthButtons?(
         
         <Link className="link" to="/"><Button
@@ -40,6 +41,7 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
         </Stack>
         ):(
           <>
+          
           <Stack direction="row" spacing={2}>
             <Link className="link" to="/login">
             <Button className="explore-button but">Login

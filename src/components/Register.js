@@ -102,7 +102,7 @@ const Register = () => {
          }
        }
        setLoad(false);
-       console.log("registered");
+      //  console.log("registered");
      };
   
   const validateInput = () => {
