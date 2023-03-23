@@ -79,7 +79,7 @@ const Register = () => {
    };
  
    const register = async (formData) => {
-     console.log(formData);
+    //  console.log(formData);
      
      try {
        await axios.post(`${config.endpoint}/auth/register`,
@@ -134,7 +134,7 @@ const Register = () => {
       else{
         setValid(true);
       }
-      console.log(valid);
+      // console.log(valid);
       if(valid){
         console.log("Goes to register function")
         register(formData)

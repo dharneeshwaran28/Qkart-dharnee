@@ -53,7 +53,7 @@ const Login = () => {
      setData({ ...data, [event.target.name]: event.target.value });
     };
   const login = async (formData) => {
-    console.log(formData);
+    // console.log(formData);
      try {
        await axios.post(`${config.endpoint}/auth/login`,
         {username: formData.username, password: formData.password})
@@ -81,7 +81,7 @@ const Login = () => {
          }
        }
        setLoad(false);
-       console.log("registered");
+      //  console.log("registered");
      };
     
 
@@ -124,7 +124,7 @@ const Login = () => {
       else{
         setValid(true);
       }
-      console.log(valid);
+      // console.log(valid);
       if(valid){
         console.log("Goes to register function")
         login(formData)

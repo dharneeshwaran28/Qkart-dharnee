@@ -29,6 +29,8 @@ import ProductCard from "./ProductCard";
 const Products = () => {
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Fetch products data and store it
   const [products, setProducts] = useState([]);
+  const [isLoading,setisloading] = useState(false);
+  const [ProductFound, setProductFound] = useState(false);
   useEffect(() => {
     performAPICall();
   }, []);
@@ -87,7 +89,9 @@ const Products = () => {
     try {
       const response = await axios.get(config.endpoint + "/products");
       setProducts(response.data);
-    } catch (error) {}
+    } catch (error) {
+      console.log("error");
+    }
     // console.log(response.data);
   };
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement search logic
@@ -104,7 +108,19 @@ const Products = () => {
    * API endpoint - "GET /products/search?value=<search-query>"
    *
    */
-  const performSearch = async (text) => {};
+  const performSearch = async (text) => {
+    try {
+      let response = await axios.get(
+        config.endpoint + "/products/search?value=" + text
+      );
+      setProducts(response.data);
+      setProductFound(false);
+    } catch (error) {
+      if (error.response.status === 404) {
+        setProductFound(true);
+      }
+    }
+  };
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Optimise API calls with debounce search implementation
   /**
@@ -118,7 +134,13 @@ const Products = () => {
    *    Timer id set for the previous debounce call
    *
    */
-  const debounceSearch = (event, debounceTimeout) => {};
+  let Timer;
+  const debounceSearch = (event, debounceTimeout) => {
+    clearTimeout(Timer);
+     Timer = setTimeout(() => {
+      performSearch(event.target.value);
+    }, debounceTimeout);
+  };
 
   return (
     <div>
@@ -135,7 +157,7 @@ const Products = () => {
             ),
           }}
           placeholder="Search for items/categories"
-          name="search"
+          name="search" onChange={(e)=>debounceSearch(e,500)}
         />
       </Header>
 
@@ -152,7 +174,7 @@ const Products = () => {
           ),
         }}
         placeholder="Search for items/categories"
-        name="search"
+        name="search" onChange={(e)=>performSearch(e.target.value)}
       />
 
       <Grid container spacing={2}>
@@ -167,22 +189,39 @@ const Products = () => {
         {/* itemList.map((item) => 
                              <div>{item}</div>
                            ); */}
-        {products === [] ? (
-          <Box className="loading">
-            <CircularProgress />
-            <p>Loading Products</p>
-          </Box>
-        ) : (
-          <Grid container spacing={3} padding={2}>
-            {products.map((val, id) => {
-              return (
-                <Grid item xs={6} md={3} key={id}>
-                  <ProductCard product={val} />
-                </Grid>
-              );
-            })}
-          </Grid>
-        )}
+        {isLoading ? (
+          <>            
+          <Box>              
+            <CircularProgress className="loading"/>              
+            <h5>Loading Products...</h5>            
+            </Box>          
+            </>        
+            ) : (
+          <>            
+          {ProductFound ? (
+              <>                
+              <Box>                  
+              <SentimentDissatisfied className="loading"/>                  
+              <p>No products found</p>                
+              </Box>              
+              </>            
+              ) : (
+              <>                
+              <Grid container spacing={3} padding={2}>                  
+              {products.map((item, id) => {
+                    return (
+                      <>                        
+                      <Grid item xs={6} md={3} key={id}>                          
+                      <ProductCard product={item} />                        
+                      </Grid>                      
+                      </>                   
+                      );
+                  })}
+                </Grid>              
+                </>            
+                )}
+          </>        
+          )}
       </Grid>
       <Footer />
     </div>
