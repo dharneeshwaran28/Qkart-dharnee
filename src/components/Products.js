@@ -145,6 +145,7 @@ const Products = () => {
   return (
     <div>
       <Header>
+        <Box>
         {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
         <TextField
           className="search-desktop"
@@ -159,6 +160,7 @@ const Products = () => {
           placeholder="Search for items/categories"
           name="search" onChange={(e)=>debounceSearch(e,500)}
         />
+        </Box>
       </Header>
 
       {/* Search view for mobiles */}
@@ -190,19 +192,25 @@ const Products = () => {
                              <div>{item}</div>
                            ); */}
         {isLoading ? (
-          <>            
-          <Box>              
-            <CircularProgress className="loading"/>              
-            <h5>Loading Products...</h5>            
-            </Box>          
-            </>        
+          <Grid container>            
+          <Grid item>
+            <CircularProgress className="loading"/>  
+            </Grid>             
+            <Grid item>
+            <h5>Loading Products...</h5>   
+            </Grid>                     
+            </Grid>        
             ) : (
           <>            
           {ProductFound ? (
-              <>                
-              <Box>                  
-              <SentimentDissatisfied className="loading"/>                  
-              <p>No products found</p>                
+                           
+              <Grid container>  
+              <Grid item>                
+              <SentimentDissatisfied className="loading"/>       
+              </Grid>
+              <Grid item>           
+              <p>No products found</p>
+                              
               </Box>              
               </>            
               ) : (
