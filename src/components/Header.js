@@ -4,63 +4,57 @@ import Box from "@mui/material/Box";
 import React, {useState} from "react";
 import { useHistory, Link } from "react-router-dom";
 import "./Header.css";
-
+import Cart from "./Cart"
 
 const Header = ({ children, hasHiddenAuthButtons }) => {
-  const tt=localStorage.getItem("username")
-  const [log, setLog] = useState(tt) 
-  // console.log(log)
+    const history = useHistory();
+    const userName = localStorage.getItem("username");
     return (
       <Box className="header">
         <Box className="header-title">
-            <img src="logo_light.svg" alt="QKart-icon"></img>
-        </Box>      
-        {children}
-        {(!hasHiddenAuthButtons)?(
-        
-        <Link className="link" to="/"><Button
-          className="explore-button"
-          startIcon={<ArrowBackIcon />}
-          variant="text"
-        >  
-          Back to explore 
-        </Button>
-        </Link>
-        ):(<>
-        {(tt) ?(
-        <Stack direction="row" spacing={2}>
-        <img src="avatar.png" alt={localStorage.getItem("username")} />
-        <Button className="but use">{localStorage.getItem("username")}</Button>
-        <Button className="explore-button but" onClick={ ()=> 
-        {
-
-          localStorage.clear();
-          setLog(false);
-        }
-      }>Logout</Button>
-        </Stack>
-        ):(
-          <>
-          
-          <Stack direction="row" spacing={2}>
-            <Link className="link" to="/login">
-            <Button className="explore-button but">Login
+          <img src="logo_light.svg" alt="QKart-icon"></img>
+        </Box>
+        <Box>{children}</Box>
+        {hasHiddenAuthButtons ? (
+          <Button
+            className="explore-button"
+            startIcon={<ArrowBackIcon />}
+            variant="text"
+            onClick={() => history.push("/")}
+          >
+            back to explore
           </Button>
-          </Link>
-          <Link className="link" to="/register">
-          <Button className="explore-button but">
-            register
-          </Button>
-          </Link>
+        ) : (
+          <Stack direction="row" spacing={1} alignItems="center">
+            {userName ? (
+              <>
+                <Avatar src="avatar.png" alt={userName} />
+                <span className="username-text">{userName}</span>
+                <Button
+                  onClick={() => {
+                    localStorage.clear();
+                    history.push("/");
+                    window.location.reload();
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button onClick={() => history.push("/login")}>Login</Button>
+                <Button
+                  
+                  onClick={() => history.push("/register")}
+                >
+                  Register
+                </Button>
+              </>
+            )}
           </Stack>
-          </>
         )}
-  </>
-      
-      )}
-        
-      </Box> 
+      </Box>
     );
-};
+  };
 
 export default Header;
