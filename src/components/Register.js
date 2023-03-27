@@ -82,6 +82,7 @@ const Register = () => {
     //  console.log(formData);
      
      try {
+      setLoad(true);
        await axios.post(`${config.endpoint}/auth/register`,
         {username: formData.username, password: formData.password});
         enqueueSnackbar("Registered successfully", { success : true });
@@ -106,7 +107,7 @@ const Register = () => {
      };
   
   const validateInput = () => {
-    setLoad(true);
+    
     if(data.username === "")
     {
       enqueueSnackbar("Username is a required field", {variant: "warning"});
@@ -133,22 +134,12 @@ const Register = () => {
       }
       else{
         setValid(true);
-      }
-      // console.log(valid);
-      if(valid){
-        console.log("Goes to register function")
-        register(formData)
-        
-      }else{
-        setFormData({
-          username: "",
-          password: "",
-          confirmPassword: ""
-        });
+        register(formData) 
+
       }
       return valid;
-
-  };
+    }
+  
 
   return (
     <Box
